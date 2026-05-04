@@ -1,0 +1,11 @@
+student_id: U202414862
+cookie: 0xc109b0e
+smoke: 0x0000000000401376
+fizz: 0x0000000000401397
+bang: 0x00000000004013ef
+global_value: 0x00000000004040ec
+buf_offset_hex: 0x50
+ret_offset: 88
+buf_addr: 0x7fffffffc8a0
+saved_rbp: 0x7fffffffc930
+test_cont: 0x40150a

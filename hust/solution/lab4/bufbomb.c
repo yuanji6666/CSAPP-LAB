@@ -93,8 +93,8 @@ void test(struct env_info *p)
                val = getbuf(byte_buffer, byte_buffer_size); 
     }
 
-    if (val == cookie) {
-        printf("Boom!: getbuf returned 0x%x\n", val);
+   if (val == cookie) {
+	printf("Boom!: getbuf returned 0x%x\n", val);
     } else {
         printf("Dud: getbuf returned 0x%x\n", val);
     }
