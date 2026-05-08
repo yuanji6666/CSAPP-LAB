@@ -14,15 +14,37 @@ struct student {
     short total;
 };
 
+static inline void swap_student(struct student *a, struct student *b) {
+    struct student tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
 short calculate_total(const short scores[], int count) {
     int sum = 0;
-    int i = 0;
+    int limit = 0;
 
     if (count <= 0) {
         return 0;
     }
 
-    for (i = 0; i < count; ++i) {
+    limit = count < COURSE_COUNT ? count : COURSE_COUNT;
+
+    switch (limit) {
+    case 8: sum += scores[7];
+    case 7: sum += scores[6];
+    case 6: sum += scores[5];
+    case 5: sum += scores[4];
+    case 4: sum += scores[3];
+    case 3: sum += scores[2];
+    case 2: sum += scores[1];
+    case 1: sum += scores[0];
+        break;
+    default:
+        break;
+    }
+
+    for (int i = COURSE_COUNT; i < count; ++i) {
         sum += scores[i];
     }
 
@@ -37,17 +59,53 @@ int compare_student_desc(const void *a, const void *b) {
 }
 
 void sort_students_desc(struct student students[], int n) {
-    int i = 0;
+    if (n != STUDENT_COUNT) {
+        int i = 0;
 
-    for (i = 1; i < n; ++i) {
-        struct student key = students[i];
-        int j = i - 1;
+        for (i = 1; i < n; ++i) {
+            struct student key = students[i];
+            int j = i - 1;
 
-        while (j >= 0 && students[j].total < key.total) {
-            students[j + 1] = students[j];
-            --j;
+            while (j >= 0 && students[j].total < key.total) {
+                students[j + 1] = students[j];
+                --j;
+            }
+            students[j + 1] = key;
         }
-        students[j + 1] = key;
+        return;
+    }
+
+    {
+        int max_idx = 0;
+
+        if (students[1].total > students[max_idx].total) max_idx = 1;
+        if (students[2].total > students[max_idx].total) max_idx = 2;
+        if (students[3].total > students[max_idx].total) max_idx = 3;
+        if (students[4].total > students[max_idx].total) max_idx = 4;
+        if (students[5].total > students[max_idx].total) max_idx = 5;
+        if (max_idx != 0) swap_student(&students[0], &students[max_idx]);
+
+        max_idx = 1;
+        if (students[2].total > students[max_idx].total) max_idx = 2;
+        if (students[3].total > students[max_idx].total) max_idx = 3;
+        if (students[4].total > students[max_idx].total) max_idx = 4;
+        if (students[5].total > students[max_idx].total) max_idx = 5;
+        if (max_idx != 1) swap_student(&students[1], &students[max_idx]);
+
+        max_idx = 2;
+        if (students[3].total > students[max_idx].total) max_idx = 3;
+        if (students[4].total > students[max_idx].total) max_idx = 4;
+        if (students[5].total > students[max_idx].total) max_idx = 5;
+        if (max_idx != 2) swap_student(&students[2], &students[max_idx]);
+
+        max_idx = 3;
+        if (students[4].total > students[max_idx].total) max_idx = 4;
+        if (students[5].total > students[max_idx].total) max_idx = 5;
+        if (max_idx != 3) swap_student(&students[3], &students[max_idx]);
+
+        max_idx = 4;
+        if (students[5].total > students[max_idx].total) max_idx = 5;
+        if (max_idx != 4) swap_student(&students[4], &students[max_idx]);
     }
 }
 
@@ -88,7 +146,7 @@ int main() {
     }
     avg_end = clock();
     avg_elapsed_ms = (double)(avg_end - avg_start);
-    
+
     print_result(students, STUDENT_COUNT);
 
     sort_start = clock();
@@ -107,4 +165,3 @@ int main() {
 
     return 0;
 }
-

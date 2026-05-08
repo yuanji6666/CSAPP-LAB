@@ -14,20 +14,8 @@ struct student {
     short total;
 };
 
-short calculate_total(const short scores[], int count) {
-    int sum = 0;
-    int i = 0;
-
-    if (count <= 0) {
-        return 0;
-    }
-
-    for (i = 0; i < count; ++i) {
-        sum += scores[i];
-    }
-
-    return (short)sum;
-}
+// 声明外部汇编函数
+extern short calculate_total(const short scores[], int count);
 
 int compare_student_desc(const void *a, const void *b) {
     const struct student *sa = (const struct student *)a;
@@ -54,7 +42,7 @@ void sort_students_desc(struct student students[], int n) {
 void print_result(const struct student students[], int n) {
     int i = 0;
 
-    printf("\n===== 总成绩排名（高到低）=====");
+    printf("\n===== 总成绩排名（高到低）=====\n");
     printf("%-4s %-10s %-12s %-8s\n", "排名", "姓名", "学号", "总分");
     for (i = 0; i < n; ++i) {
         printf("%-4d %-10s %-12s %-8hd\n", i + 1, students[i].name, students[i].sid, students[i].total);
@@ -107,4 +95,3 @@ int main() {
 
     return 0;
 }
-
